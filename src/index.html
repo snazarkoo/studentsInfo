@@ -5,6 +5,7 @@
     <title>Students info</title>
     <link rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body ng-app="studentsInfo" ng-controller="appController as appVm">
     <div class="container">
@@ -36,58 +37,60 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="student in appVm.students | filter:search">
-                            <th>1</th>
                             <td>{{student.name}}</td>
-                            <td>Test</td>
-                            <td>Test</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-md-4 rightPanel">
                 <h3>Student's profile</h3>
-                <form action="">
-                    <ul>
-                        <div class="form-group input-group-sm">
-                            <label>First Name:</label>
-                            <input type="text" class="form-control" name="firstName" id="firstName" readonly="true">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Second Name:</label>
-                            <input type="text" class="form-control" name="lastName" readonly="true">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Mobile Number:</label>
-                            <input type="text" class="form-control" name="mobileNumber" readonly="true">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Email:</label>
-                            <input type="text" class="form-control" name="email" readonly="true">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>English Level:</label>
-                            <input type="text" class="form-control" name="englishLevel" readonly="true">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Self Description:</label>
-                            <input type="text" class="form-control" name="selfDescription" readonly="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="teacherOpinion">Teacher Opinion:</label>
-                            <textarea class="form-control" name="teacherOpinion" id="teacherOpinion" rows="3"></textarea>
-                        </div>
-                        <div class="form-group  input-group-sm">
-                            <label for="decision">Desicion:</label>
-                            <select name="decision" class="form-control" id="decision">
-                                <option>Yes</option>
-                                <option>No</option>
-                                <option>Maybe</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">Submit</button>
-                        </div>
-                    </ul>
+                <form method="post" action="https://script.google.com/macros/s/AKfycby-Fnpz1VJRZoaPrmV9DB84D2cUnyZp392-5FSka-S7cRUQkMI/exec">
+                <input type="text" name="id"/>
+                <input type="text" name="Name"/>
+                <input type="text" name="Surname"/>
+                <input type="text" name="Mark"/>
+                <input type="submit" value="submit"/>
+                   <!--  <ul>
+                       <div class="form-group input-group-sm">
+                           <label>First Name:</label>
+                           <input type="text" class="form-control" name="firstName" id="firstName" readonly="true">
+                       </div>
+                       <div class="form-group input-group-sm">
+                           <label>Second Name:</label>
+                           <input type="text" class="form-control" name="lastName" readonly="true">
+                       </div>
+                       <div class="form-group input-group-sm">
+                           <label>Mobile Number:</label>
+                           <input type="text" class="form-control" name="mobileNumber" readonly="true">
+                       </div>
+                       <div class="form-group input-group-sm">
+                           <label>Email:</label>
+                           <input type="text" class="form-control" name="email" readonly="true">
+                       </div>
+                       <div class="form-group input-group-sm">
+                           <label>English Level:</label>
+                           <input type="text" class="form-control" name="englishLevel" readonly="true">
+                       </div>
+                       <div class="form-group input-group-sm">
+                           <label>Self Description:</label>
+                           <input type="text" class="form-control" name="selfDescription" readonly="true">
+                       </div>
+                       <div class="form-group">
+                           <label for="teacherOpinion">Teacher Opinion:</label>
+                           <textarea class="form-control" name="teacherOpinion" id="teacherOpinion" rows="3"></textarea>
+                       </div>
+                       <div class="form-group  input-group-sm">
+                           <label for="decision">Desicion:</label>
+                           <select name="decision" class="form-control" id="decision">
+                               <option>Yes</option>
+                               <option>No</option>
+                               <option>Maybe</option>
+                           </select>
+                       </div>
+                       <div class="form-group">
+                           <button type="submit" class="btn btn-default">Submit</button>
+                       </div>
+                   </ul> -->
                 </form>
             </div>   
         </div>
