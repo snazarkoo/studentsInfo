@@ -1,22 +1,67 @@
 angular
-    .module('studentsInfo', [])
-    .controller('appController', appController);
+    .module('studentsInfo', ['ngTable']);
 
-function appController($scope, $http) {
-    vm = this;
-    vm.newValue = "name";
-    vm.students = [{name: "sdasaddas"}];
-    var url = 'https://spreadsheets.google.com/feeds/list/1FzkGijfnvihEVnI43EF0mJK4H2nxGMDj7R7ZJY0Bb5k/od6/public/values?alt=json-in-script&callback=?';
-    jQuery.getJSON(url).success(function(data) {
+(function() {
+    angular
+        .module('studentsInfo')
+        .controller('appController', appController);
 
-        data.feed.entry.forEach(function(value, index) {
-            vm.students.push({id: value.gsx$id.$t, name: value.gsx$name.$t, mark: value.gsx$mark.$t, surname: value.gsx$surname.$t});
+    function appController(NgTableParams) {
+        var vm = this;
+        var data = [{
+                firstName: "Test1",
+                secondName: "Test2",
+                mobileNumber: 5555,
+                email: "test@test.com",
+                testMark: 10,
+                englishLevel: "B1",
+                selfDescription: "Awesome man",
+                teacherOpinion: "good",
+                decision: "YES"
+            }, {
+                firstName: "Test2",
+                secondName: "Test2",
+                mobileNumber: 6666,
+                email: "test@test.com",
+                testMark: 10
+            }, {
+                firstName: "Test3",
+                secondName: "Test2",
+                mobileNumber: 5555,
+                email: "test@test.com",
+                testMark: 10
+            }, {
+                firstName: "Test",
+                secondName: "Test2",
+                mobileNumber: 5555,
+                email: "test@test.com",
+                testMark: 10
+            }, {
+                firstName: "Test",
+                secondName: "Test2",
+                mobileNumber: 5555,
+                email: "test@test.com",
+                testMark: 10
+            }]
+
+        vm.studentProfile = {};
+        vm.openUserProfile = openUserProfile;
+        vm.tableParams = new NgTableParams({}, {
+            dataset: data
         });
-        $scope.$digest();
-        console.log(vm.students);
-    }).error(function(message) {
-        console.error('error' + message);
-    }).complete(function() {
-        console.log('completed!');
-    });
-}
+
+        function openUserProfile(studentInfo) {
+            vm.studentProfile = {};
+            for (var key in studentInfo) {
+                if (studentInfo[key]) {
+                    vm.studentProfile[key] = studentInfo[key];
+                }
+            }
+        }
+    }
+})();
+
+(function() {
+    "use strict";
+    angular.module("studentsInfo")
+})();
