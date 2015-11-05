@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../vendor/ng-table/dist/ng-table.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body ng-app="studentsInfo" ng-controller="appController as appVm">
     <div class="container">
@@ -14,70 +13,81 @@
             <h2>Information about students</h2>
         </div>
         <div class="row">
-            <div class="col-md-8 leftPanel">
+            <div class="col-sm-6">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <h3>Students</h3>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.name">
+                            <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                             </span>
                         </div>
                     </div>                   
                 </div>
-                <table ng-table="appVm.tableParams" class="table">
+                 <table class="table">
                     <caption>All students</caption>
-                        <tr ng-repeat="student in $data  | filter:search" ng-click="appVm.openUserProfile(student)">
-                            <td title="'#'">1</td>
-                            <td title="'Name'">{{student.firstName}}</td>
-                            <td title="'Email'">{{student.email}}</td>
-                            <td title="'Test Mark'" >{{student.testMark}}</td>
-                        </tr>
-                </table>
+                     <thead>
+                         <tr>
+                             <th>First and Last Name (ukr)</th>
+                             <th>First and Last Name (eng)</th>
+                             <th>English Level</th>
+                             <th>Link to social network account (facebook, vk, etc)</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr ng-repeat="student in appVm.students | filter:search.nameUkr" ng-class="appVm.decisionByColor[student.conclusion]" ng-click="appVm.openUserProfile(student)">
+                             <td>{{student.nameEng}}</td>
+                             <td>{{student.nameUkr}}</td>
+                             <td>{{student.engLevel}}</td>
+                             <td>{{student.socialLink}}</td>
+                         </tr>
+                     </tbody>
+                 </table>
             </div>
-            <div class="col-md-4 rightPanel">
+            <div class="col-sm-6">
                 <h3>Student's profile</h3>
                 <form>
                     <ul>
                         <div class="form-group input-group-sm">
-                            <label>First Name:</label>
-                            <input type="text" class="form-control" name="firstName" id="firstName" readonly="true" ng-model="appVm.studentProfile.firstName">
+                            <label>First and Last Name (ukr):</label>
+                            <input type="text" class="form-control" name="firstName" id="firstName" readonly="true" ng-model="appVm.studentProfile.nameUkr">
                         </div>
                         <div class="form-group input-group-sm">
-                            <label>Second Name:</label>
-                            <input type="text" class="form-control" name="lastName" readonly="true" ng-model="appVm.studentProfile.secondName">
+                            <label>First and Last Name (eng):</label>
+                            <input type="text" class="form-control" name="lastName" readonly="true" ng-model="appVm.studentProfile.nameEng">
                         </div>
                         <div class="form-group input-group-sm">
                             <label>Mobile Number:</label>
-                            <input type="text" class="form-control" name="mobileNumber" readonly="true" ng-model="appVm.studentProfile.mobileNumber">
+                            <input type="text" class="form-control" name="mobileNumber" readonly="true" ng-model="appVm.studentProfile.phone">
                         </div>
                         <div class="form-group input-group-sm">
                             <label>Email:</label>
-                            <input type="text" class="form-control" name="email" readonly="true" ng-model="appVm.studentProfile.email">
+                            <input type="text" class="form-control" name="email" readonly="true" ng-model="appVm.studentProfile.id">
                         </div>
                         <div class="form-group input-group-sm">
                             <label>English Level:</label>
-                            <input type="text" class="form-control" name="englishLevel" readonly="true" ng-model="appVm.studentProfile.englishLevel">
+                            <input type="text" class="form-control" name="englishLevel" readonly="true" ng-model="appVm.studentProfile.engLevel">
                         </div>
                         <div class="form-group input-group-sm">
-                            <label>Self Description:</label>
-                            <input type="text" class="form-control" name="selfDescription" readonly="true" ng-model="appVm.studentProfile.selfDescription">
+                            <label>Why have you decided to join this course?:</label>
+                            <input type="text" class="form-control" name="selfDescription" readonly="true" ng-model="appVm.studentProfile.entryDecision">
                         </div>
                         <div class="form-group">
                             <label for="teacherOpinion">Teacher Opinion:</label>
-                            <textarea class="form-control" name="teacherOpinion" id="teacherOpinion" rows="3" ng-model="appVm.studentProfile.teacherOpinion"></textarea>
+                            <textarea class="form-control" name="teacherOpinion" id="teacherOpinion" rows="3" ng-model="appVm.studentProfile.feedback"></textarea>
                         </div>
                         <div class="form-group  input-group-sm">
                             <label for="decision">Desicion:</label>
-                            <select name="decision" class="form-control" id="decision" ng-model="appVm.studentProfile.decision">
+                            <select name="decision" class="form-control" id="decision" ng-model="appVm.studentProfile.conclusion">
                                 <option>Yes</option>
                                 <option>No</option>
                                 <option>Maybe</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-default">Submit</button>
+                            <button type="submit" class="btn btn-default" ng-click="appVm.send(appVm.studentProfile)">Submit</button>
+                            <button class="btn btn-default">Refresh</button>
                         </div>
                     </ul>
                 </form>

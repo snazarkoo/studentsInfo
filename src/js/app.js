@@ -6,48 +6,36 @@ angular
         .module('studentsInfo')
         .controller('appController', appController);
 
-    function appController(NgTableParams) {
+    function appController($scope, NgTableParams, $http) {
         var vm = this;
-        var data = [{
-                firstName: "Test1",
-                secondName: "Test2",
-                mobileNumber: 5555,
-                email: "test@test.com",
-                testMark: 10,
-                englishLevel: "B1",
-                selfDescription: "Awesome man",
-                teacherOpinion: "good",
-                decision: "YES"
-            }, {
-                firstName: "Test2",
-                secondName: "Test2",
-                mobileNumber: 6666,
-                email: "test@test.com",
-                testMark: 10
-            }, {
-                firstName: "Test3",
-                secondName: "Test2",
-                mobileNumber: 5555,
-                email: "test@test.com",
-                testMark: 10
-            }, {
-                firstName: "Test",
-                secondName: "Test2",
-                mobileNumber: 5555,
-                email: "test@test.com",
-                testMark: 10
-            }, {
-                firstName: "Test",
-                secondName: "Test2",
-                mobileNumber: 5555,
-                email: "test@test.com",
-                testMark: 10
-            }]
+        vm.students = [];
 
         vm.studentProfile = {};
         vm.openUserProfile = openUserProfile;
-        vm.tableParams = new NgTableParams({}, {
-            dataset: data
+        vm.send = send;
+        var url = 'https://spreadsheets.google.com/feeds/list/1FzkGijfnvihEVnI43EF0mJK4H2nxGMDj7R7ZJY0Bb5k/od6/public/values?alt=json-in-script&callback=?';
+        jQuery.getJSON(url).success(function(data) {
+            console.log(data);
+            data.feed.entry.forEach(function(value, index) {
+                vm.students.push({
+                    conclusion: value.gsx$conclusion.$t,
+                    engLevel: value.gsx$englishlevel.$t,
+                    feedback: value.gsx$feedback.$t,
+                    nameEng: value.gsx$firstandlastnameeng.$t,
+                    nameUkr: value.gsx$firstandlastnameukr.$t,
+                    id: value.gsx$id.$t,
+                    socialLink: value.gsx$linktosocialnetworkaccountfacebookvketc.$t,
+                    phone: value.gsx$phone.$t,
+                    timestamp: value.gsx$timestamp.$t,
+                    entryDecision: value.gsx$whyhaveyoudecidedtojointhiscourse.$t
+                });
+            });
+            $scope.$digest();
+            console.log(vm.students);
+        }).error(function(message) {
+            console.error('error' + message);
+        }).complete(function() {
+            console.log('completed!');
         });
 
         function openUserProfile(studentInfo) {
@@ -57,6 +45,27 @@ angular
                     vm.studentProfile[key] = studentInfo[key];
                 }
             }
+        }
+
+        function send(data) {
+            console.log(data);
+            var feedback = "Feedback=" + data.feedback + "&id=" + data.id + "&Conclusion=" + data.conclusion;
+            console.log(feedback);
+            var req = {
+                method: 'POST',
+                url: 'https://script.google.com/macros/s/AKfycby-Fnpz1VJRZoaPrmV9DB84D2cUnyZp392-5FSka-S7cRUQkMI/exec',
+                headers: {
+                    'Content-Type': "application/x-www-form-urlencoded"
+                },
+                withCredentials: true,
+                data: feedback
+            }
+
+            $http(req).then(function(data) {
+                console.log("success" + data);
+            }, function(error) {
+                console.log(error);
+            });
         }
     }
 })();
