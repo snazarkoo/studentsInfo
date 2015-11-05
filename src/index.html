@@ -16,23 +16,18 @@
             <div class="col-sm-6">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3>Students</h3>
-                        <div class="input-group">
+            
                             <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                            </span>
-                        </div>
+                        
                     </div>                   
                 </div>
                  <table class="table">
-                    <caption>All students</caption>
                      <thead>
                          <tr>
                              <th>First and Last Name (ukr)</th>
                              <th>First and Last Name (eng)</th>
                              <th>English Level</th>
-                             <th>Link to social network account (facebook, vk, etc)</th>
+                             <th>Link to social network</th>
                          </tr>
                      </thead>
                      <tbody>
@@ -46,15 +41,14 @@
                  </table>
             </div>
             <div class="col-sm-6">
-                <h3>Student's profile</h3>
                 <form>
                     <ul>
                         <div class="form-group input-group-sm">
-                            <label>First and Last Name (ukr):</label>
+                            <label>Name (ukr):</label>
                             <input type="text" class="form-control" name="firstName" id="firstName" readonly="true" ng-model="appVm.studentProfile.nameUkr">
                         </div>
                         <div class="form-group input-group-sm">
-                            <label>First and Last Name (eng):</label>
+                            <label>Name (eng):</label>
                             <input type="text" class="form-control" name="lastName" readonly="true" ng-model="appVm.studentProfile.nameEng">
                         </div>
                         <div class="form-group input-group-sm">
@@ -66,7 +60,7 @@
                             <input type="text" class="form-control" name="email" readonly="true" ng-model="appVm.studentProfile.id">
                         </div>
                         <div class="form-group input-group-sm">
-                            <label>English Level:</label>
+                            <label>English:</label>
                             <input type="text" class="form-control" name="englishLevel" readonly="true" ng-model="appVm.studentProfile.engLevel">
                         </div>
                         <div class="form-group input-group-sm">
@@ -82,11 +76,11 @@
                             <select name="decision" class="form-control" id="decision" ng-model="appVm.studentProfile.conclusion">
                                 <option>Yes</option>
                                 <option>No</option>
-                                <option>Maybe</option>
+                                <option selected="selected">Maybe</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-default" ng-click="appVm.send(appVm.studentProfile)">Submit</button>
+                            <button class="btn btn-default" ng-click="appVm.sendInfo(appVm.studentProfile)">Submit</button>
                             <button class="btn btn-default">Refresh</button>
                         </div>
                     </ul>
@@ -99,5 +93,6 @@
     <script src="../vendor/angular/angular.min.js"></script>
     <script src="../vendor/ng-table/dist/ng-table.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/appController.js"></script>
 </body>
 </html>
