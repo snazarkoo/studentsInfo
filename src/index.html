@@ -19,8 +19,8 @@
                  <table class="table">
                      <thead>
                          <tr>
-                             <th><img src="img/sort.png" alt="Sort" ng-click="appVm.order('nameUkr')" width="20" height="20"/>Name (ukr)</th>
-                             <th><img src="img/sort.png" alt="Sort" ng-click="appVm.order('nameEng')" width="20" height="20"/>Name (eng)</th>
+                             <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (ukr)</th>
+                             <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (eng)</th>
                              <th >English Level</th>
                              <th>Link to social network</th>
                          </tr>
@@ -30,7 +30,7 @@
                              <td>{{student.nameEng}}</td>
                              <td>{{student.nameUkr}}</td>
                              <td>{{student.engLevel}}</td>
-                             <td><a href="{{student.socialLink}}"  title="{{student.socialLink}}"> <img  width="25" height="25" src="{{appVm.getSocialMediaImage(student.socialLink)}}" alt=""></a></td>
+                             <td class="center"><a href="{{student.socialLink}}"  title="{{student.socialLink}}"><span class="glyphicon glyphicon-globe" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span></a></td>
                          </tr>
                      </tbody>
                  </table>

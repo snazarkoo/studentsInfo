@@ -1,3 +1,15 @@
 body {
 	margin-top: 5%;
 }
+
+th > span {
+	font-size: 10px;
+	padding: 5px;
+	cursor: pointer;
+	opacity: 0.5;
+
+}
+
+th > span:hover {
+	opacity: 1;
+};
