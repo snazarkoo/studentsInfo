@@ -4,6 +4,13 @@ angular
 
 function appController($scope, $http) {
     var vm = this;
+    vm.predicate = 'age';
+    vm.reverse = true;
+    vm.order = function(predicate) {
+        vm.reverse = (vm.predicate === predicate) ? !vm.reverse : false;
+        vm.predicate = predicate;
+      };
+    
     vm.students = [];
     vm.studentProfile = {};
     vm.decisionByColor = {
@@ -11,6 +18,7 @@ function appController($scope, $http) {
         "No": "danger",
         "Maybe": "warning"
     };
+    vm.getSocialMediaImage = getSocialMediaImage;
     vm.openUserProfile = openUserProfile;
     vm.sendInfo = sendInfo;
 
@@ -50,6 +58,15 @@ function appController($scope, $http) {
         }, function(error) {
             console.log(error);
         });
+    }
+
+    function getSocialMediaImage(url) {
+        if(url.indexOf("fb") > -1 || url.indexOf("facebook") > -1) {
+            return "img/facebook.png";
+        }
+        if(url.indexOf("vk.com") > -1) {
+            return "img/vk.png";
+        }
     }
 
     function getData() {

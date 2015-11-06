@@ -9,33 +9,28 @@
 </head>
 <body ng-app="studentsInfo" ng-controller="appController as appVm">
     <div class="container">
-        <div class="page-header">
-            <h2>Information about students</h2>
-        </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="row">
                     <div class="col-sm-6">
-            
                             <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
-                        
                     </div>                   
                 </div>
                  <table class="table">
                      <thead>
                          <tr>
-                             <th>First and Last Name (ukr)</th>
-                             <th>First and Last Name (eng)</th>
-                             <th>English Level</th>
+                             <th><img src="img/sort.png" alt="Sort" ng-click="appVm.order('nameUkr')" width="20" height="20"/>Name (ukr)</th>
+                             <th><img src="img/sort.png" alt="Sort" ng-click="appVm.order('nameEng')" width="20" height="20"/>Name (eng)</th>
+                             <th >English Level</th>
                              <th>Link to social network</th>
                          </tr>
                      </thead>
                      <tbody>
-                         <tr ng-repeat="student in appVm.students | filter:search.nameUkr" ng-class="appVm.decisionByColor[student.conclusion]" ng-click="appVm.openUserProfile(student)">
+                         <tr ng-repeat="student in appVm.students | filter:search.nameUkr | orderBy:appVm.predicate:appVm.reverse" ng-class="appVm.decisionByColor[student.conclusion]" ng-click="appVm.openUserProfile(student)">
                              <td>{{student.nameEng}}</td>
                              <td>{{student.nameUkr}}</td>
                              <td>{{student.engLevel}}</td>
-                             <td>{{student.socialLink}}</td>
+                             <td><a href="{{student.socialLink}}"  title="{{student.socialLink}}"> <img  width="25" height="25" src="{{appVm.getSocialMediaImage(student.socialLink)}}" alt=""></a></td>
                          </tr>
                      </tbody>
                  </table>
