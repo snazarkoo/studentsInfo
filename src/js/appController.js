@@ -18,7 +18,6 @@ function appController($scope, $http) {
         "No": "danger",
         "Maybe": "warning"
     };
-    vm.getSocialMediaImage = getSocialMediaImage;
     vm.openUserProfile = openUserProfile;
     vm.sendInfo = sendInfo;
 
@@ -62,15 +61,6 @@ function appController($scope, $http) {
             console.log(error);
           //  getData();
         });
-    }
-
-    function getSocialMediaImage(url) {
-        if(url.indexOf("fb") > -1 || url.indexOf("facebook") > -1) {
-            return "img/facebook.png";
-        }
-        if(url.indexOf("vk.com") > -1) {
-            return "img/vk.png";
-        }
     }
 
     function getData() {
