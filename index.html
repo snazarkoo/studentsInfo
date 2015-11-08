@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Students info</title>
-    <link rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../vendor/ng-table/dist/ng-table.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/ng-table/dist/ng-table.min.css">
+    <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body ng-app="studentsInfo" ng-controller="appController as appVm">
     <div class="container">
@@ -47,12 +47,16 @@
                             <input type="text" class="form-control" name="lastName" readonly="true" ng-model="appVm.studentProfile.nameEng">
                         </div>
                         <div class="form-group input-group-sm">
+                            <label>Mark:</label>
+                            <input type="text" class="form-control" name="mark" readonly="true" ng-model="appVm.studentProfile.mark">
+                        </div>
+                        <div class="form-group input-group-sm">
                             <label>Mobile Number:</label>
                             <input type="text" class="form-control" name="mobileNumber" readonly="true" ng-model="appVm.studentProfile.phone">
                         </div>
                         <div class="form-group input-group-sm">
                             <label>Email:</label>
-                            <input type="text" class="form-control" name="email" readonly="true" ng-model="appVm.studentProfile.id">
+                            <input type="text" class="form-control" name="email" readonly="true" ng-model="appVm.studentProfile.email">
                         </div>
                         <div class="form-group input-group-sm">
                             <label>English:</label>
@@ -83,11 +87,11 @@
             </div>   
         </div>
     </div>
-    <script src="../vendor/jquery/dist/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../vendor/angular/angular.min.js"></script>
-    <script src="../vendor/ng-table/dist/ng-table.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/appController.js"></script>
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/ng-table/dist/ng-table.min.js"></script>
+    <script src="src/js/app.js"></script>
+    <script src="src/js/appController.js"></script>
 </body>
 </html>

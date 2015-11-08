@@ -25,6 +25,7 @@ function appController($scope, $http) {
     getData();
 
     function openUserProfile(studentInfo) {
+        console.log(studentInfo);
         vm.studentProfile = {};
         for (var key in studentInfo) {
             if (studentInfo[key]) {
@@ -35,11 +36,12 @@ function appController($scope, $http) {
 
     function sendInfo(data) {
         console.log("Send info");
-        var feedback = "Feedback=" + data.feedback + "&id=" + data.id + "&Conclusion=" + data.conclusion;
+        var feedback = "Feedback=" + data.feedback + "&Conclusion=" + data.conclusion + "&E-mail=" + data.email;
         console.log(feedback);
         feedback = encodeURI(feedback);
         vm.students.forEach(function(value, index) {
-            if(value.id === data.id) {
+            console.log(value.id, data.id);
+            if(value.email === data.email) {
                 value.feedback = data.feedback;
                 value.conclusion = data.conclusion;
             }
@@ -55,8 +57,10 @@ function appController($scope, $http) {
         };
         $http(req).then(function(data) {
             console.log("success" + data);
+           // getData();
         }, function(error) {
             console.log(error);
+          //  getData();
         });
     }
 
@@ -73,6 +77,7 @@ function appController($scope, $http) {
         var url = 'https://spreadsheets.google.com/feeds/list/1FzkGijfnvihEVnI43EF0mJK4H2nxGMDj7R7ZJY0Bb5k/od6/public/values?alt=json-in-script&callback=?';
         jQuery.getJSON(url).success(function(data) {
             console.log(data);
+            vm.students = [];
             data.feed.entry.forEach(function(value, index) {
                 vm.students.push({
                     conclusion: value.gsx$conclusion.$t,
@@ -80,11 +85,12 @@ function appController($scope, $http) {
                     feedback: value.gsx$feedback.$t,
                     nameEng: value.gsx$firstandlastnameeng.$t,
                     nameUkr: value.gsx$firstandlastnameukr.$t,
-                    id: value.gsx$id.$t,
+                    email: value["gsx$e-mail"].$t,
                     socialLink: value.gsx$linktosocialnetworkaccountfacebookvketc.$t,
                     phone: value.gsx$phone.$t,
                     timestamp: value.gsx$timestamp.$t,
-                    entryDecision: value.gsx$whyhaveyoudecidedtojointhiscourse.$t
+                    entryDecision: value.gsx$whyhaveyoudecidedtojointhiscourse.$t,
+                    mark: value.gsx$mark.$t
                 });
             });
             $scope.$digest();
