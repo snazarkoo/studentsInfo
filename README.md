@@ -1,18 +1,18 @@
 Open your spreadsheet.
 
-Requirements for the spreadsheet:
-1. All column's names must be listed in first row(a1);
+**Requirements** for the spreadsheet:
+> - All column's names must be listed in **first** row(a1);
 Like: 
 ![alt tag](http://content.screencast.com/users/OlehChem/folders/Default/media/345e4dc1-3d09-4d21-9487-5faa1d955154/tableStructure.png)
-2. Allowed names of columns: "Timestamp", "First and Last Name (ukr)", "First and Last Name (eng)", "Mark", "E-mail", "Phone", "Position", "English level",  "Link to social network account (facebook, vk, etc)", "Why have you decided to join this course?", "Feedback", "Conclusion".
+> - Allowed names of columns: **"Timestamp"**, **"First and Last Name (ukr)"**, **"First and Last Name (eng)"**, **"Mark"**, **"E-mail"**, **"Phone"**, **"Position"**, **"English level"**,  **"Link to social network account (facebook, vk, etc)"**, **"Why have you decided to join this course?", "Feedback"**, **"Conclusion"**.
 
-3. List of data rows must start in next row (second 2). Empty rows are not allowed.
+> - List of data rows must start in next row (**row 2**) and so on. Empty rows are not allowed.
 
 
 
-Go to "Tools" in menu, ->   "Script editor".
-Paste code listed below to "Script editor window".
-
+Go to **"Tools"** in menu, ->   **"Script editor"**.
+Paste code listed below to **"Script editor"** window.
+```
 function doPost(e) { // change to doPost(e) if you are recieving POST data
   var ss = SpreadsheetApp.openById(ScriptProperties.getProperty('active'));
   var sheet = ss.getSheetByName("DATA");    // CHANGE NAME!!!
@@ -50,21 +50,21 @@ function doPost(e) { // change to doPost(e) if you are recieving POST data
 function setUp() {
   ScriptProperties.setProperty('active', SpreadsheetApp.getActiveSpreadsheet().getId());
 }
+```
 
-Change sheet name in code below, if your spreadsheet isn't named "DATA".
+Change **sheet** name in code below, if your spreadsheet isn't named **"DATA"**.
+```
 var sheet = ss.getSheetByName("DATA");
+```
+Choose **"setUp"** option from **"Select function"** dropdown.
+**Run** setUp function twice using **"run"** button".
 
-Choose "setUp" option from "Select function" dropdown.
-Run setUp function twice using "run button".
-
-Deploy your app (Publish -> Deploy as web app).
-Choose Project version.
-Select "Me (yourmail@gmail.com)" from "Execute the app as:" dropdown.
-Select "Anyone, even anonymous" from "Who has access to the app:" dropdown.
-Press "Deploy" button. 
-Store url into "urlPost" variable (src->js->appController.js:23);
-Replace "1FzkGijfnvihEVnI43EF0mJK4H2nxGMDj7R7ZJY0Bb5k" key value to your spreadsheet key (src->js->appController.js:24).
+Deploy your app (**Publish **-> **Deploy as web app**).
+Choose **Project version**.
+Select **Me (yourmail@gmail.com)"** from **"Execute the app as:"** dropdown.
+Select **"Anyone, even anonymous"** from **"Who has access to the app:"** dropdown.
+Press **"Deploy"** button. 
+Store **url** into **"urlPost"** variable (**src->js->appController.js:23**);
+Replace "1FzkGijfnvihEVnI43EF0mJK4H2nxGMDj7R7ZJY0Bb5k" **key** value to your spreadsheet key (**src->js->appController.js:24**).
 
 ![alt tag](http://content.screencast.com/users/OlehChem/folders/Default/media/7adc433e-7ab5-46ce-b69b-0e7965f91cdb/datarow.png)
-
-
