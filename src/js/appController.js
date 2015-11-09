@@ -17,6 +17,7 @@ function appController($scope, $http) {
     vm.order = order;
     vm.openUserProfile = openUserProfile;
     vm.sendInfo = sendInfo;
+    vm.getData = getData;
 
     var urlPost = 'https://script.google.com/macros/s/AKfycby-Fnpz1VJRZoaPrmV9DB84D2cUnyZp392-5FSka-S7cRUQkMI/exec';
     var urlGet = 'https://spreadsheets.google.com/feeds/list/1FzkGijfnvihEVnI43EF0mJK4H2nxGMDj7R7ZJY0Bb5k/od6/public/values?alt=json-in-script&callback=?';
@@ -53,9 +54,11 @@ function appController($scope, $http) {
         };
         $http(req).then(function(data) {
             console.log("success" + data);
+            getData();
            // getData();
         }, function(error) {
             console.log(error);
+            getData();
           //  getData();
         });
     }
@@ -88,6 +91,7 @@ function appController($scope, $http) {
         }).error(function(message) {
             console.error('error' + message);
         }).complete(function() {
+            
             console.log('completed!');
         });
     }
