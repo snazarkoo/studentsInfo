@@ -12,4 +12,8 @@ th > span {
 
 th > span:hover {
 	opacity: 1;
-};
+}
+
+.link {
+	margin: 0 auto;
+}
