@@ -4,7 +4,6 @@
   "description": "Information about students",
   "dependencies": {
     "angular": "~1.4.7",
-    "bootstrap": "~3.3.5",
-    "ng-table": "~1.0.0"
+    "bootstrap": "~3.3.5"
   }
 }
