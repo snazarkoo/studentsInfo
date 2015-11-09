@@ -1,9 +1,0 @@
-{
-  "name": "StudentsInfo",
-  "version": "0.0.1",
-  "description": "Information about students",
-  "dependencies": {
-    "angular": "~1.4.7",
-    "bootstrap": "~3.3.5"
-  }
-}

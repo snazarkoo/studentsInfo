@@ -5,18 +5,31 @@
     <title>Students info</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="src/css/style.css">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="src/js/app.js"></script>
+    <script src="src/js/appController.js"></script>
+    <script src="src/js/decisionFilter.js"></script>
 </head>
 <body ng-app="studentsInfo" ng-controller="appController as appVm">
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-sm-8">
                             <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
                     </div>
                     <div class="col-sm-2">
+                        <select ng-model="appVm.decision">
+                                <option>All</option>
+                                <option>Yes</option>
+                                <option>No</option>
+                                <option>Maybe</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
                         <button class="btn btn-default" ng-click="appVm.getData()">Refresh</button>
-                    </div>     
+                    </div> 
                 </div>
                  <table class="table">
                      <thead>
@@ -28,7 +41,7 @@
                          </tr>
                      </thead>
                      <tbody>
-                         <tr ng-repeat="student in appVm.students | filter:search.nameUkr | orderBy:appVm.predicate:appVm.reverse" ng-class="appVm.decisionByColor[student.conclusion]" ng-click="appVm.openUserProfile(student)">
+                         <tr ng-repeat="student in appVm.students | filter:search.nameUkr | orderBy:appVm.predicate:appVm.reverse | decision:appVm.decision" ng-class="appVm.decisionByColor[student.conclusion]" ng-click="appVm.openUserProfile(student)">
                              <td ng-bind="student.nameEng"></td>
                              <td ng-bind="student.nameUkr"></td>
                              <td ng-bind="student.engLevel"></td>
@@ -40,40 +53,26 @@
             <div class="col-sm-6">
                 <form>
                     <ul>
-                        <div class="form-group input-group-sm">
-                            <label>Name (ukr):</label>
-                            <input type="text" class="form-control" name="firstName" id="firstName" readonly="true" ng-model="appVm.studentProfile.nameUkr">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Name (eng):</label>
-                            <input type="text" class="form-control" name="lastName" readonly="true" ng-model="appVm.studentProfile.nameEng">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Mark:</label>
-                            <input type="text" class="form-control" name="mark" readonly="true" ng-model="appVm.studentProfile.mark">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Mobile Number:</label>
-                            <input type="text" class="form-control" name="mobileNumber" readonly="true" ng-model="appVm.studentProfile.phone">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Email:</label>
-                            <input type="text" class="form-control" name="email" readonly="true" ng-model="appVm.studentProfile.email">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>English:</label>
-                            <input type="text" class="form-control" name="englishLevel" readonly="true" ng-model="appVm.studentProfile.engLevel">
-                        </div>
-                        <div class="form-group input-group-sm">
-                            <label>Why have you decided to join this course?:</label>
-                            <input type="text" class="form-control" name="selfDescription" readonly="true" ng-model="appVm.studentProfile.entryDecision">
-                        </div>
+                        <p>Ім'я: <strong>{{appVm.studentProfile.nameUkr}}</strong></p>
+                 
+                        <p>Name: <strong>{{appVm.studentProfile.nameEng}}</strong></p>
+             
+                        <p>Mark: <strong>{{appVm.studentProfile.mark}}</strong></p>
+                    
+                        <p>Mobile Number: <strong>{{appVm.studentProfile.phone}}</strong></p>
+        
+                        <p>E-mail: <strong>{{appVm.studentProfile.email}}</strong></p>
+                      
+                        <p>English Level: <strong>{{appVm.studentProfile.engLevel}}</strong></p>
+                    
+                        <p>Why have you decided to join this course?:<strong> {{appVm.studentProfile.entryDecision}}</strong></p>
+                        <hr>
                         <div class="form-group">
                             <label for="teacherOpinion">Teacher Opinion:</label>
                             <textarea class="form-control" name="teacherOpinion" id="teacherOpinion" rows="3" ng-model="appVm.studentProfile.feedback"></textarea>
                         </div>
                         <div class="form-group  input-group-sm">
-                            <label for="decision">Desicion:</label>
+                            <label for="decision">Decision:</label>
                             <select name="decision" class="form-control" id="decision" ng-model="appVm.studentProfile.conclusion">
                                 <option>Yes</option>
                                 <option>No</option>
@@ -88,9 +87,5 @@
             </div>   
         </div>
     </div>
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-    <script src="src/js/app.js"></script>
-    <script src="src/js/appController.js"></script>
 </body>
 </html>
