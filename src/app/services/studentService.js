@@ -8,7 +8,7 @@ angular
  * @description Operations about students 
  * @requires $http 
  * @requires UrlConstants
- * @memberOf studentsInfo.AppController
+ * @memberOf studentsInfo.StudentService
  */
 function StudentService($http, UrlConstants) {
 	var service = {
@@ -24,9 +24,8 @@ function StudentService($http, UrlConstants) {
      * @memberOf studentsInfo.AppController
      */
 	function getAllStudents(cbSuccess, cbError) {
-		$http.get(UrlConstants.GetStudents)
-			.success(cbSuccess)
-			.error(cbError);
+		return $http.get(UrlConstants.GetStudents)
+					.then(cbSuccess, cbError);
 	}
 
 	/**
@@ -38,8 +37,7 @@ function StudentService($http, UrlConstants) {
      * @memberOf studentsInfo.AppController
      */
 	function updateStudentByEmail(cbSuccess, cbError, config, data) {
-		$http.post(UrlConstants.UpdateStudent, data, config)
-			.success(cbSuccess)
-			.error(cbError);
+		return $http.post(UrlConstants.UpdateStudent, data, config)
+				.then(cbSuccess, cbError);
 	}
 }

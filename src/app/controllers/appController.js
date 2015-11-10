@@ -34,6 +34,7 @@ function AppController($scope, StudentService) {
             "No": "danger",
             "Maybe": "warning"
         };
+        vm.showAnimation = false;
     }
 
     /**
@@ -42,31 +43,38 @@ function AppController($scope, StudentService) {
      */
     function getStudents() {
         StudentService.getAllStudents(success, error);
+        vm.showAnimation = true;
 
-        function success(data) {
-            var students = data.feed.entry;
+        function success(res) {
+            vm.showAnimation = false;
+            var students = res.data.feed.entry;
             if (vm.students) {
                 vm.students = [];
             }
-            students.forEach(function(student) {
-                vm.students.push({
-                    conclusion: student.gsx$conclusion.$t,
-                    engLevel: student.gsx$englishlevel.$t,
-                    feedback: student.gsx$feedback.$t,
-                    nameEng: student.gsx$firstandlastnameeng.$t,
-                    nameUkr: student.gsx$firstandlastnameukr.$t,
-                    email: student["gsx$e-mail"].$t,
-                    socialLink: student.gsx$linktosocialnetworkaccountfacebookvketc.$t,
-                    phone: student.gsx$phone.$t,
-                    timestamp: student.gsx$timestamp.$t,
-                    entryDecision: student.gsx$whyhaveyoudecidedtojointhiscourse.$t,
-                    mark: student.gsx$mark.$t
-                })
-            });
+            if(students) {
+                students.forEach(function(student) {
+                    vm.students.push({
+                        conclusion: student.gsx$conclusion.$t,
+                        engLevel: student.gsx$englishlevel.$t,
+                        feedback: student.gsx$feedback.$t,
+                        nameEng: student.gsx$firstandlastnameeng.$t,
+                        nameUkr: student.gsx$firstandlastnameukr.$t,
+                        email: student["gsx$e-mail"].$t,
+                        socialLink: student.gsx$linktosocialnetworkaccountfacebookvketc.$t,
+                        phone: student.gsx$phone.$t,
+                        timestamp: student.gsx$timestamp.$t,
+                        entryDecision: student.gsx$whyhaveyoudecidedtojointhiscourse.$t,
+                        mark: student.gsx$mark.$t
+                    })
+                });
+            } else {
+                vm.error = "Here is no students";
+            }
         }
 
-        function error() {
-
+        function error(error) {
+            vm.error = "Cannot get students";
+            vm.showAnimation = false;
         }
     }
 
@@ -76,12 +84,7 @@ function AppController($scope, StudentService) {
      * @memberOf studentsInfo.AppController
      */
     function openUserProfile(studentInfo) {
-        vm.studentProfile = {};
-        for (var key in studentInfo) {
-            if (studentInfo[key]) {
-                vm.studentProfile[key] = studentInfo[key];
-            }
-        }
+        vm.studentProfile = angular.extend({}, studentInfo);
     }
 
     /**
@@ -97,11 +100,18 @@ function AppController($scope, StudentService) {
                 'Content-Type': "application/x-www-form-urlencoded"
             }
         };
+        vm.showAnimation = true;
 
-        StudentService.updateStudentByEmail(callback, callback, config, requestData);
+        StudentService.updateStudentByEmail(cbSuccess, cbError, config, requestData);
 
-        function callback() {
+        function cbSuccess() {
             getStudents();
+            vm.showAnimation = false;
+        }
+
+        function cbError(error) {
+            getStudents();
+            vm.showAnimation = false;
         }
     }
 
@@ -128,14 +138,3 @@ function AppController($scope, StudentService) {
         vm.predicate = predicate;
     }
 }
-
-
-
-/*
-    Позбувся jQuery,
-    Було створенно StudentService для отримання/оновлення даних,
-    Виніс urlGet, urlPost в константи,
-    Створив нормальну структуру папок,
-    Почистив код,
-    Додав коменти
-*/

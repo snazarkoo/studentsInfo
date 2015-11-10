@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Students info</title>
@@ -12,60 +13,63 @@
     <script src="src/app/constants/urlConstants.js"></script>
     <script src="src/app/services/studentService.js"></script>
 </head>
+
 <body ng-app="studentsInfo" ng-controller="AppController as appVm">
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
                 <div class="row">
                     <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
+                        <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
                     </div>
                     <div class="col-sm-2">
                         <select ng-model="appVm.decision">
-                                <option>All</option>
-                                <option>Yes</option>
-                                <option>No</option>
-                                <option>Maybe</option>
+                            <option>All</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                            <option>Maybe</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-default" ng-click="appVm.getData()">Refresh</button>
-                    </div> 
+                        <button class="btn btn-default" ng-click="appVm.getStudents()">Refresh</button>
+                    </div>
                 </div>
-                 <table class="table">
-                     <thead>
-                         <tr>
-                             <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (ukr)</th>
-                             <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (eng)</th>
-                             <th >English Level</th>
-                             <th>Link to social network</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         <tr ng-repeat="student in appVm.students | filter:search.nameUkr | orderBy:appVm.predicate:appVm.reverse | DecisionFilter:appVm.decision" ng-class="appVm.decisionByColor[student.conclusion]" ng-click="appVm.openUserProfile(student)">
-                             <td ng-bind="student.nameEng"></td>
-                             <td ng-bind="student.nameUkr"></td>
-                             <td ng-bind="student.engLevel"></td>
-                             <td class="center"><a ng-show="!(student.socialLink=='')" href="{{student.socialLink}}"  target="_blank" title="{{student.socialLink}}"><span class="glyphicon glyphicon-globe" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span></a></td>
-                         </tr>
-                     </tbody>
-                 </table>
+                <div class="showbox" ng-show="appVm.showAnimation">
+                    <div class="loader">
+                        <svg class="circular" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                        </svg>
+                    </div>
+                </div>
+                <table class="table" ng-show="!appVm.showAnimation">
+                    <thead>
+                        <tr>
+                            <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (eng)</th>
+                            <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (ukr)</th>
+                            <th>English Level</th>
+                            <th>Link to social network</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="student in appVm.students | filter:search.nameUkr | filter:search.nameEng | DecisionFilter:appVm.decision | orderBy:appVm.predicate:appVm.reverse" ng-class="appVm.decisionByColor[student.conclusion]" ng-click="appVm.openUserProfile(student)">
+                            <td ng-bind="student.nameEng"></td>
+                            <td ng-bind="student.nameUkr"></td>
+                            <td ng-bind="student.engLevel"></td>
+                            <td class="center"><a ng-show="!(student.socialLink=='')" href="{{student.socialLink}}" target="_blank" title="{{student.socialLink}}"><span class="glyphicon glyphicon-globe" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div ng-show="appVm.errors">{{appVm.errors}}</div>
             </div>
             <div class="col-sm-6" ng-show="appVm.studentProfile">
-                        <p>Ім'я: <strong>{{appVm.studentProfile.nameUkr}}</strong></p>
-                 
-                        <p>Name: <strong>{{appVm.studentProfile.nameEng}}</strong></p>
-             
-                        <p>Mark: <strong>{{appVm.studentProfile.mark}}</strong></p>
-                    
-                        <p>Mobile Number: <strong>{{appVm.studentProfile.phone}}</strong></p>
-        
-                        <p>E-mail: <strong>{{appVm.studentProfile.email}}</strong></p>
-                      
-                        <p>English Level: <strong>{{appVm.studentProfile.engLevel}}</strong></p>
-                    
-                        <p>Why have you decided to join this course?:<strong> {{appVm.studentProfile.entryDecision}}</strong></p>
-                        <hr>
+                <p>Ім'я: <strong>{{appVm.studentProfile.nameUkr}}</strong></p>
+                <p>Name: <strong>{{appVm.studentProfile.nameEng}}</strong></p>
+                <p>Mark: <strong>{{appVm.studentProfile.mark}}</strong></p>
+                <p>Mobile Number: <strong>{{appVm.studentProfile.phone}}</strong></p>
+                <p>E-mail: <strong>{{appVm.studentProfile.email}}</strong></p>
+                <p>English Level: <strong>{{appVm.studentProfile.engLevel}}</strong></p>
+                <p>Why have you decided to join this course?:<strong> {{appVm.studentProfile.entryDecision}}</strong></p>
+                <hr>
                 <form>
                     <div class="form-group">
                         <label for="teacherOpinion">Teacher Opinion:</label>
@@ -83,8 +87,9 @@
                         <button class="btn btn-default" ng-click="appVm.updataStudent(appVm.studentProfile)">Submit</button>
                     </div>
                 </form>
-            </div>   
+            </div>
         </div>
     </div>
 </body>
+
 </html>
