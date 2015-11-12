@@ -46,6 +46,7 @@ function AppController($scope, StudentService) {
         vm.showAnimation = true;
 
         function success(res) {
+            console.log(res);
             vm.showAnimation = false;
             var students = res.data.feed.entry;
             if (vm.students) {
@@ -64,7 +65,8 @@ function AppController($scope, StudentService) {
                         phone: student.gsx$phone.$t,
                         timestamp: student.gsx$timestamp.$t,
                         entryDecision: student.gsx$whyhaveyoudecidedtojointhiscourse.$t,
-                        mark: student.gsx$mark.$t
+                        mark: student.gsx$mark.$t,
+                        position: student.gsx$position.$t
                     })
                 });
             } else {
@@ -93,7 +95,8 @@ function AppController($scope, StudentService) {
      * @memberOf studentsInfo.AppController
      */
     function updataStudent(newData) {
-        var requestData = createRequestData(newData.feedback, newData.conclusion, newData.email);
+        var interviewTime = (new Date()).toUTCString();
+        var requestData = createRequestData(newData.feedback, newData.conclusion, newData.email, interviewTime);
         var config = {
             method: 'POST',
             headers: {
@@ -122,8 +125,8 @@ function AppController($scope, StudentService) {
      * @param  {String} email Student's e-mail
      * @memberOf studentsInfo.AppController
      */
-    function createRequestData(feedback, conclusion, email) {
-        var requestData = "Feedback=" + feedback + "&Conclusion=" + conclusion + "&E-mail=" + email;
+    function createRequestData(feedback, conclusion, email, time) {
+        var requestData = "Feedback=" + feedback + "&Conclusion=" + conclusion + "&E-mail=" + email + "&Interview time=" + time;
         requestData = encodeURI(requestData);
         return requestData;
     }
