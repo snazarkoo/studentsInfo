@@ -1,2 +1,2 @@
 angular
-    .module('studentsInfo', []);
+    .module('studentsInfo', ['smoothScroll']);

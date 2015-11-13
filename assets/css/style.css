@@ -54,6 +54,10 @@ th > span:hover {
   margin: auto;
 }
 
+[ng-click] {
+  cursor: pointer;
+}
+
 .path {
   stroke-dasharray: 1,200;
   stroke-dashoffset: 0;

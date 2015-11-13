@@ -12,10 +12,12 @@
     <script src="src/app/filters/decisionFilter.js"></script>
     <script src="src/app/constants/urlConstants.js"></script>
     <script src="src/app/services/studentService.js"></script>
-</head>
+    <script src="src/libs/angular-smooth-scroll.js"></script>
+    <script src="src/app/directives/interviewersListDirective.js"></script>
+</head> 
 
 <body ng-app="studentsInfo" ng-controller="AppController as appVm">
-    <div class="container">
+    <div class="container" id="top">
         <div class="row">
             <div class="col-sm-6">
                 <div class="row">
@@ -46,8 +48,9 @@
                         <tr>
                             <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (eng)</th>
                             <th><span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span>Name (ukr)</th>
-                            <th>English Level</th>
-                            <th>Link to social network</th>
+                            <th>English</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,12 +59,25 @@
                             <td ng-bind="student.nameUkr"></td>
                             <td ng-bind="student.engLevel"></td>
                             <td class="center"><a ng-show="!(student.socialLink=='')" href="{{student.socialLink}}" target="_blank" title="{{student.socialLink}}"><span class="glyphicon glyphicon-globe" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span></a></td>
+                            <td>{{student.interviewTime}}</td>
                         </tr>
                     </tbody>
                 </table>
                 <div ng-show="appVm.errors">{{appVm.errors}}</div>
             </div>
             <div class="col-sm-6" ng-show="appVm.studentProfile">
+            <div interviewers-list></div>
+                <div ng-repeat="(key, value) in appVm.interviewers">
+                    <select ng-model="value">
+                        <option value="inter1">Interviewer1</option>
+                        <option value="inter2">Interviewer2</option>
+                        <option value="inter3">Interviewer3</option>
+                        <option value="inter4">Interviewer4</option>
+                        <option value="inter5">Interviewer5</option>
+                    </select>
+                    <input type="button" value="+" ng-click="appVm.addInterviewer(key)">
+                    <input type="button" value="-" ng-click="appVm.deleteInterviewer(key)">
+                </div>
                 <p>Ім'я: <strong>{{appVm.studentProfile.nameUkr}}</strong></p>
                 <p>Name: <strong>{{appVm.studentProfile.nameEng}}</strong></p>
                 <p>Mark: <strong>{{appVm.studentProfile.mark}}</strong></p>

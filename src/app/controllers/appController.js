@@ -9,7 +9,7 @@ angular
  * @requires StudentService 
  * @memberOf studentsInfo.AppController
 */
-function AppController($scope, StudentService) {
+function AppController($scope, $filter, $location, StudentService, smoothScroll) {
     var vm = this;
 
     initDefaults();
@@ -21,6 +21,7 @@ function AppController($scope, StudentService) {
      */
     function initDefaults() {
         vm.students = [];
+        vm.interviewers = {"interviewer1": "inter1"};
         vm.studentProfile = null;
         vm.predicate = 'age';
         vm.reverse = true;
@@ -35,6 +36,9 @@ function AppController($scope, StudentService) {
             "Maybe": "warning"
         };
         vm.showAnimation = false;
+        vm.goToTop = goToTop;
+        vm.deleteInterviewer = deleteInterviewer;
+        vm.addInterviewer = addInterviewer;
     }
 
     /**
@@ -66,7 +70,8 @@ function AppController($scope, StudentService) {
                         timestamp: student.gsx$timestamp.$t,
                         entryDecision: student.gsx$whyhaveyoudecidedtojointhiscourse.$t,
                         mark: student.gsx$mark.$t,
-                        position: student.gsx$position.$t
+                        position: student.gsx$position.$t,
+                        interviewTime: student.gsx$interviewtime.$t
                     })
                 });
             } else {
@@ -87,6 +92,8 @@ function AppController($scope, StudentService) {
      */
     function openUserProfile(studentInfo) {
         vm.studentProfile = angular.extend({}, studentInfo);
+        $location.path('top');
+        smoothScroll(document.body);
     }
 
     /**
@@ -95,7 +102,8 @@ function AppController($scope, StudentService) {
      * @memberOf studentsInfo.AppController
      */
     function updataStudent(newData) {
-        var interviewTime = (new Date()).toUTCString();
+        var interviewTime = $filter('date')(new Date(), "MMMM dd");
+        console.log(interviewTime);
         var requestData = createRequestData(newData.feedback, newData.conclusion, newData.email, interviewTime);
         var config = {
             method: 'POST',
@@ -126,6 +134,7 @@ function AppController($scope, StudentService) {
      * @memberOf studentsInfo.AppController
      */
     function createRequestData(feedback, conclusion, email, time) {
+        console.log(time.toString());
         var requestData = "Feedback=" + feedback + "&Conclusion=" + conclusion + "&E-mail=" + email + "&Interview time=" + time;
         requestData = encodeURI(requestData);
         return requestData;
@@ -139,5 +148,16 @@ function AppController($scope, StudentService) {
     function order(predicate) {
         vm.reverse = (vm.predicate === predicate) ? !vm.reverse : false;
         vm.predicate = predicate;
+    }
+    $scope.$watch(function () {return vm.interviewers["interviewer1"];}, function (newVal, oldVal) {
+        console.log(newVal, oldVal);
+    }, true);
+
+    function goToTop() {
+        
+    }
+    function addInterviewer(interviewer) {
+    }
+    function deleteInterviewer(interviewer) {
     }
 }
