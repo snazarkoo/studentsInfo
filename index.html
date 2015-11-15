@@ -24,16 +24,16 @@
                     <div class="col-sm-6 col-xs-6 col-md-8">
                         <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
                     </div>
-                    <div class="col-sm-3 col-xs-3 col-md-2">
-                        <select ng-model="appVm.decision">
+                    <div class="col-sm-4 col-xs-4 col-md-3">
+                        <select class="form-control" ng-model="appVm.decision">
                             <option>All</option>
                             <option>Yes</option>
                             <option>No</option>
                             <option>Maybe</option>
                         </select>
                     </div>
-                    <div class="col-sm-3 col-xs-3 col-md-2">
-                        <button class="btn btn-default" ng-click="appVm.getStudents()">Refresh</button>
+                    <div class="col-sm-2 col-xs-2 col-md-1">
+                        <span ng-click="appVm.getStudents()" class="btn btn-default glyphicon glyphicon-refresh"></span>
                     </div>
                 </div>
                 <div class="showbox" ng-show="appVm.showAnimation">
@@ -66,17 +66,19 @@
                 <div ng-show="appVm.errors">{{appVm.errors}}</div>
             </div>
             <div class="col-sm-6" ng-show="appVm.studentProfile">
-            <div interviewers-list></div>
-                <div ng-repeat="(key, value) in appVm.interviewers">
-                    <select ng-model="value">
-                        <option value="inter1">Interviewer1</option>
-                        <option value="inter2">Interviewer2</option>
-                        <option value="inter3">Interviewer3</option>
-                        <option value="inter4">Interviewer4</option>
-                        <option value="inter5">Interviewer5</option>
+                <div ng-repeat="interviewer in appVm.interviewers">
+                    <select ng-model="interviewer.name">
+                        <option value="yev">Yevhen</option>
+                        <option value="ol">Oleh</option>
+                        <option value="naz">Nazar</option>
                     </select>
-                    <input type="button" value="+" ng-click="appVm.addInterviewer(key)">
-                    <input type="button" value="-" ng-click="appVm.deleteInterviewer(key)">
+                    <input type="button" class="button btn-success" value="+" ng-click="appVm.addInterviewer()"/>
+                    <input type="button" ng-class="{'button btn-danger': appVm.interviewers.length > 1, 'button btn-warning': appVm.interviewers.length === 1}" value="-" ng-click="appVm.deleteInterviewer(interviewer)" ng-disabled="appVm.interviewers.length === 1"/>
+                </div>
+                <div class="alert alert-danger" role="alert" ng-show="appVm.uniqueInterviewerError">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Interviewers have to be unique!
                 </div>
                 <p>Ім'я: <strong>{{appVm.studentProfile.nameUkr}}</strong></p>
                 <p>Name: <strong>{{appVm.studentProfile.nameEng}}</strong></p>

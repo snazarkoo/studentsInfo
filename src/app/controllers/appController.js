@@ -21,7 +21,6 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
      */
     function initDefaults() {
         vm.students = [];
-        vm.interviewers = {"interviewer1": "inter1"};
         vm.studentProfile = null;
         vm.predicate = 'age';
         vm.reverse = true;
@@ -36,9 +35,18 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
             "Maybe": "warning"
         };
         vm.showAnimation = false;
-        vm.goToTop = goToTop;
         vm.deleteInterviewer = deleteInterviewer;
         vm.addInterviewer = addInterviewer;
+        vm.interviewers = [
+            {
+            'id': getUniqueId(), 
+            'name': 'yev'
+            }
+        ];
+        vm.deb = function () {
+            console.log(vm.interviewers);
+        }
+        vm.uniqueInterviewerError = false;
     }
 
     /**
@@ -103,7 +111,7 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
      */
     function updataStudent(newData) {
         var interviewTime = $filter('date')(new Date(), "MMMM dd");
-        console.log(interviewTime);
+
         var requestData = createRequestData(newData.feedback, newData.conclusion, newData.email, interviewTime);
         var config = {
             method: 'POST',
@@ -111,9 +119,16 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
                 'Content-Type': "application/x-www-form-urlencoded"
             }
         };
-        vm.showAnimation = true;
+        
 
-        StudentService.updateStudentByEmail(cbSuccess, cbError, config, requestData);
+        if(isUniqueInterviewers()) {
+            vm.uniqueInterviewerError = false;
+            vm.showAnimation = true;
+            StudentService.updateStudentByEmail(cbSuccess, cbError, config, requestData);
+        } else {
+            vm.uniqueInterviewerError = true;
+        }
+        
 
         function cbSuccess() {
             getStudents();
@@ -149,15 +164,33 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
         vm.reverse = (vm.predicate === predicate) ? !vm.reverse : false;
         vm.predicate = predicate;
     }
-    $scope.$watch(function () {return vm.interviewers["interviewer1"];}, function (newVal, oldVal) {
-        console.log(newVal, oldVal);
-    }, true);
 
-    function goToTop() {
-        
+    function getUniqueId() {
+        return (new Date()).getTime();
     }
-    function addInterviewer(interviewer) {
+
+    function addInterviewer() {
+        vm.interviewers.push({
+            id: getUniqueId(),
+            name: 'yev'
+        });
     }
     function deleteInterviewer(interviewer) {
+        vm.interviewers.forEach(function(value, index) {
+            if(interviewer.id === value.id) {
+                console.log(index);
+                vm.interviewers.splice(index, 1);
+            }
+        });
+    }
+    function isUniqueInterviewers() {
+        var temp = angular.copy(vm.interviewers);
+        temp.sort(function(a, b) { return a.name < b.name; });
+        for(var i = 0; i < temp.length - 1; ++i) {
+            if(temp[i].name === temp[i + 1].name) {
+                return false;
+            }
+        }
+        return true;
     }
 }
