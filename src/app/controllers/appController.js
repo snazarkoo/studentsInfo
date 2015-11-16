@@ -40,7 +40,7 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
         vm.interviewers = [
             {
             'id': getUniqueId(), 
-            'name': 'yev'
+            'name': 'Yevhen Lysyakov'
             }
         ];
         vm.deb = function () {
@@ -100,8 +100,7 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
      */
     function openUserProfile(studentInfo) {
         vm.studentProfile = angular.extend({}, studentInfo);
-        $location.path('top');
-        smoothScroll(document.body);
+        smoothScroll(document.getElementsByClassName("top")[1]);
     }
 
     /**
@@ -112,7 +111,7 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
     function updataStudent(newData) {
         var interviewTime = $filter('date')(new Date(), "MMMM dd");
 
-        var requestData = createRequestData(newData.feedback, newData.conclusion, newData.email, interviewTime);
+        var requestData;
         var config = {
             method: 'POST',
             headers: {
@@ -124,9 +123,11 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
         if(isUniqueInterviewers()) {
             vm.uniqueInterviewerError = false;
             vm.showAnimation = true;
+            requestData = createRequestData(newData.feedback, newData.conclusion, newData.email, interviewTime, vm.interviewers);
             StudentService.updateStudentByEmail(cbSuccess, cbError, config, requestData);
         } else {
             vm.uniqueInterviewerError = true;
+            smoothScroll(document.getElementById("top"));
         }
         
 
@@ -148,9 +149,17 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
      * @param  {String} email Student's e-mail
      * @memberOf studentsInfo.AppController
      */
-    function createRequestData(feedback, conclusion, email, time) {
-        console.log(time.toString());
-        var requestData = "Feedback=" + feedback + "&Conclusion=" + conclusion + "&E-mail=" + email + "&Interview time=" + time;
+    function createRequestData(feedback, conclusion, email, time, interviewers) {
+        var interviewersStr = '';
+        var delimiter = ', ';
+        interviewers.forEach(function(value, index) {
+            if(index === interviewers.length - 1) {
+                delimiter = '';
+            }
+            interviewersStr += value.name + delimiter;
+        });
+        console.log(interviewersStr);
+        var requestData = "Feedback=" + feedback + "&Conclusion=" + conclusion + "&E-mail=" + email + "&Interview time=" + time + "&Interviewers=" + interviewersStr;
         requestData = encodeURI(requestData);
         return requestData;
     }
@@ -172,7 +181,7 @@ function AppController($scope, $filter, $location, StudentService, smoothScroll)
     function addInterviewer() {
         vm.interviewers.push({
             id: getUniqueId(),
-            name: 'yev'
+            name: 'Yevhen Lysyakov'
         });
     }
     function deleteInterviewer(interviewer) {

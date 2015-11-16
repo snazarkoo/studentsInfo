@@ -17,9 +17,9 @@
 </head> 
 
 <body ng-app="studentsInfo" ng-controller="AppController as appVm">
-    <div class="container" id="top">
+    <div class="container">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 top">
                 <div class="row">
                     <div class="col-sm-6 col-xs-6 col-md-8">
                         <input type="text" class="form-control" placeholder="Enter first name or last name" ng-model="search.nameUkr">
@@ -58,28 +58,35 @@
                             <td ng-bind="student.nameEng"></td>
                             <td ng-bind="student.nameUkr"></td>
                             <td ng-bind="student.engLevel"></td>
-                            <td class="center"><a ng-show="!(student.socialLink=='')" href="{{student.socialLink}}" target="_blank" title="{{student.socialLink}}"><span class="glyphicon glyphicon-globe" aria-hidden="true" ng-click="appVm.order('nameUkr')"></span></a></td>
+                            <td class="center"><a ng-show="!(student.socialLink=='')" href="{{student.socialLink}}" target="_blank" title="{{student.socialLink}}"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></td>
                             <td>{{student.interviewTime}}</td>
                         </tr>
                     </tbody>
                 </table>
                 <div ng-show="appVm.errors">{{appVm.errors}}</div>
             </div>
-            <div class="col-sm-6" ng-show="appVm.studentProfile">
-                <div ng-repeat="interviewer in appVm.interviewers">
-                    <select ng-model="interviewer.name">
-                        <option value="yev">Yevhen</option>
-                        <option value="ol">Oleh</option>
-                        <option value="naz">Nazar</option>
-                    </select>
-                    <input type="button" class="button btn-success" value="+" ng-click="appVm.addInterviewer()"/>
-                    <input type="button" ng-class="{'button btn-danger': appVm.interviewers.length > 1, 'button btn-warning': appVm.interviewers.length === 1}" value="-" ng-click="appVm.deleteInterviewer(interviewer)" ng-disabled="appVm.interviewers.length === 1"/>
+            <div class="col-sm-6 top">
+                 <div id="interviewersContainer">
+                    <div ng-repeat="interviewer in appVm.interviewers" class="interviewer-item">
+                        <select ng-model="interviewer.name">
+                            <option value="Yevhen Lysyakov">Yevhen Lysyakov</option>
+                            <option value="Roman Taraban">Roman Taraban</option>
+                            <option value="Yuriy Dzhavala">Yuriy Dzhavala</option>
+                            <option value="Yaroslav Porodko">Yaroslav Porodko</option>
+                            <option value="Taras Kharuk">Taras Kharuk</option>
+                            <option value="Yaroslav Dmytriv">Yaroslav Dmytriv</option>
+                            <option value="Yaroslav Halka">Yaroslav Halka</option>
+                        </select>
+                        <input type="button" class="button btn-success" value="+" ng-click="appVm.addInterviewer()"/>
+                        <input type="button" ng-class="{'button btn-danger': appVm.interviewers.length > 1, 'button btn-warning': appVm.interviewers.length === 1}" value="-" ng-click="appVm.deleteInterviewer(interviewer)" ng-disabled="appVm.interviewers.length === 1"/>
+                    </div>
+                    <span class="alert alert-danger" role="alert" ng-show="appVm.uniqueInterviewerError">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        Interviewers have to be unique!
+                    </span>
                 </div>
-                <div class="alert alert-danger" role="alert" ng-show="appVm.uniqueInterviewerError">
-                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    <span class="sr-only">Error:</span>
-                    Interviewers have to be unique!
-                </div>
+                <div ng-show="appVm.studentProfile">
                 <p>Ім'я: <strong>{{appVm.studentProfile.nameUkr}}</strong></p>
                 <p>Name: <strong>{{appVm.studentProfile.nameEng}}</strong></p>
                 <p>Mark: <strong>{{appVm.studentProfile.mark}}</strong></p>
@@ -106,6 +113,7 @@
                         <button class="btn btn-default" ng-click="appVm.updataStudent(appVm.studentProfile)">Submit</button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>

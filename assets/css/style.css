@@ -1,5 +1,5 @@
 body {
-	margin-top: 5%;
+	
 }
 
 th > span {
@@ -134,4 +134,17 @@ th > span:hover {
   80%, 90% {
     stroke: #ffa700;
   }
+}
+
+#interviewersContainer {
+}
+.interviewer-item {
+  margin-bottom: 5px;
+}
+.alert {
+  padding: 0px; 
+  margin-bottom: 0px;
+}
+.top {
+  padding-top: 5%;
 }
